@@ -1,4 +1,4 @@
-name: "Main unit tests with mpich"
+name: "Pace main unit tests"
 on:
   workflow_call:
     inputs:
