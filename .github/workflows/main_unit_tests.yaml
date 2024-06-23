@@ -62,6 +62,7 @@ jobs:
         - name: mv pyShield to pace
           if: ${{inputs.shield_trigger}}
           run: |
+            ls ${GITHUB_WORKSPACE}/pace
             rm -r ${GITHUB_WORKSPACE}/pace/pySHiELD
             mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
 
