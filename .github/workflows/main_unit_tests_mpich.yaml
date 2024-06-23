@@ -28,7 +28,7 @@ env:
   github_repository: ${{github.event.repository.name}}
 
 jobs:
-  main_unit_tests:
+  pace_unit_tests:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
@@ -48,15 +48,15 @@ jobs:
 
         - name: mv PyFV3 to pace
           if: ${{inputs.fv3_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${env.github_repository} ${GITHUB_WORKSPACE}/pace/pyFV3
+          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pyFV3
 
         - name: mv NDSL to pace
           if: ${{inputs.ndsl_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${env.github_repository} ${GITHUB_WORKSPACE}/pace/NDSL
+          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/NDSL
 
         - name: mv pyShield to pace
           if: ${{inputs.shield_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${env.github_repository} ${GITHUB_WORKSPACE}/pace/pySHiELD
+          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
 
         - name: install packages
           run: |
@@ -64,7 +64,7 @@ jobs:
             pip3 install --upgrade pip setuptools wheel
             pip3 install -r requirements_dev.txt -c constraints.txt
 
-        - name: run make input files
+        - name: make input files
           run: |
             cd ${GITHUB_WORKSPACE}/pace
             python3 examples/generate_eta_files.py
