@@ -68,7 +68,7 @@ jobs:
           run: |
             cd ${GITHUB_WORKSPACE}/pace
             python3 examples/generate_eta_files.py
-            mkdir input && mv eta*.nc input/.
+            mkdir tests/main/input && mv eta*.nc tests/main/input/.
 
         - name: run tests
           run: |
