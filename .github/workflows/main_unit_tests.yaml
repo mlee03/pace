@@ -6,7 +6,7 @@ on:
         type: boolean
         default: false
         required: false
-      fv3_triger:
+      fv3_trigger:
         type: boolean
         default: false
         required: false
@@ -62,7 +62,7 @@ jobs:
         - name: mv pyShield to pace
           if: ${{inputs.shield_trigger}}
           run: |
-            rm -r ${GITHUB_WORKSPACE}/pace/pySHiELD
+            rm -r ${GITHUB_WORKSPACE}/pace/PySHiELD
             mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
 
         - name: install packages
