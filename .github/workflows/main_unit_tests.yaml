@@ -49,15 +49,21 @@ jobs:
 
         - name: mv PyFV3 to pace
           if: ${{inputs.fv3_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pyFV3
+          run: |
+            rm ${GITHUB_WORKSPACE}/pace/pyFV3
+            mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pyFV3
 
         - name: mv NDSL to pace
           if: ${{inputs.ndsl_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/NDSL
+          run: |
+            rm ${GITHUB_WORKSPACE}/pace/NDSL
+            mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/NDSL
 
         - name: mv pyShield to pace
           if: ${{inputs.shield_trigger}}
-          run: mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
+          run: |
+            rm ${GITHUB_WORKSPACE}/pace/pySHiELD
+            mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
 
         - name: install packages
           run: |
