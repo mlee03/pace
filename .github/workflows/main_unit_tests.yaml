@@ -34,7 +34,7 @@ jobs:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
         - name: Checkout pace if externally triggered
-          if:  ${{ inputs.fv3_trigger || inputs.ndsl_trigger || inputs.shield }}
+          if:  ${{ inputs.fv3_trigger || inputs.ndsl_trigger || inputs.shield_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
@@ -62,7 +62,6 @@ jobs:
         - name: mv pyShield to pace
           if: ${{inputs.shield_trigger}}
           run: |
-            ls ${GITHUB_WORKSPACE}/pace
             rm -r ${GITHUB_WORKSPACE}/pace/pySHiELD
             mv ${GITHUB_WORKSPACE}/${{env.github_repository}} ${GITHUB_WORKSPACE}/pace/pySHiELD
 
