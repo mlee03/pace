@@ -31,7 +31,7 @@ jobs:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
         - name: Checkout pace if externally triggered
-          if:  ${{ inputs.external_trigger}}
+          if:  ${{ inputs.external_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
@@ -39,15 +39,16 @@ jobs:
             path: pace
 
         - name: Checkout pace if externally triggered
-          if:  ${{ inputs.external_trigger}}
+          if:  ${{ inputs.external_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
             repository: ${{inputs.external_repository}}
             ref: ${{inputs.external_branch}}
-            path: pace
+            path: pace/.
 
         - name: Checkout repo that triggered the workflow
+          if: ${{ ! inputs.external_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
