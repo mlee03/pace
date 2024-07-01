@@ -29,12 +29,28 @@ jobs:
     container:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
+      - name: Checkout pace if externally triggered
+        if:  ${{inputs.component_trigger}}
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          repository: NOAA-GFDL/pace
+
+      - name: Checkout external repository
+        if: ${{ inputs.component_trigger }}
+        uses: action/checkout@v4
+        with:
+          submodules: 'recursive'
+          repository: ${{inputs.component_repository}}
+          ref: ${{inputs.component_branch}}
+          path: pace/.
 
       - name:  Checkout pace if internally triggered
         if:  ${{ ! inputs.component_trigger }}
         uses: action/checkout@v4
         with:
           submodules: 'recursive'
+          repository: ${{github.ref}}
 
       - name: install packages
         run: |
