@@ -14,6 +14,10 @@ on:
         type: string
         default: 'None'
         required: false
+      component_location:
+        type: string
+        default: 'None'
+        required: false
   push:
   pull_request:
       types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
@@ -36,22 +40,23 @@ jobs:
           with:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
-            path: pace
+            path: ${GITHUB_WORKSPACE}/pace
 
-        - name: Checkout pace if component triggered
+        - name: Checkout out component
           if:  ${{ inputs.component_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
             repository: ${{inputs.component_repository}}
             ref: ${{inputs.component_branch}}
-            path: pace/.
+            path: ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
 
-        - name: Checkout repo that triggered the workflow
+        - name: Checkout pace if internally triggered
           if: ${{ ! inputs.component_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
+            path: ${GITHUB_WORKSPACE}/pace
 
         - name: install packages
           run: |
