@@ -2,6 +2,10 @@ name: "Pace main unit tests"
 on:
   workflow_call:
     inputs:
+      component_trigger:
+        type: boolean
+        default: false
+        required: false
       component_repository:
         type: string
         default: 'None'
@@ -27,23 +31,23 @@ jobs:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
         - name: Checkout pace if externally triggered
-          if:  ${{ inputs.component_repositoy != 'None' }}
+          if:  ${{ inputs.component_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
 
         - name: Checkout external repository
-          if: ${{ inputs.component_repository != 'None' }}
+          if: ${{ inputs.component_trigger }}
           uses: action/checkout@v4
           with:
             submodules: 'recursive'
-            repository: ${{ inputs.component_repository != 'None' }}
+            repository: ${{inputs.component_repository}}
             ref: ${{inputs.component_branch}}
             path: pace/.
             
         - name:  Checkout pace if internally triggered
-          if:  ${{ inputs.component_repository == 'None' }}
+          if:  ${{ ! inputs.component_trigger }}
           uses: action/checkout@v4
           with:
             submodules: 'recursive'
