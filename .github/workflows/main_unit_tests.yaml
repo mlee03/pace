@@ -66,6 +66,7 @@ jobs:
 
         - name: make input files
           run: |
+            ls -R ${GITHUB_WORKSPACE}
             cd ${GITHUB_WORKSPACE}/pace
             python3 examples/generate_eta_files.py
             mkdir tests/main/input && mv eta*.nc tests/main/input/.
