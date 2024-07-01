@@ -1,19 +1,5 @@
 name: "Pace main unit tests"
 on:
-  workflow_call:
-    inputs:
-      component_trigger:
-        type: boolean
-        default: false
-        required: false
-      component_repository:
-        type: string
-        default: 'None'
-        required: false
-      component_branch:
-        type: string
-        default: 'None'
-        required: false
   push:
   pull_request:
       types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
