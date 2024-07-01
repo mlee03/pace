@@ -48,10 +48,17 @@ jobs:
           run: rm -rf ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
           
         - name: Checkout out pace or component that triggered CI
+          if: ${{inputs.component_trigger}}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
-            path: ${{inputs.component_location}}
+            path: pace/${{inputs.component_location}}
+
+        - name: Checkout out pace or component that triggered CI
+          uses: actions/checkout@v4
+          with:
+            submodules: 'recursive'
+            path: pace
 
         - name: install packages
           run: |
