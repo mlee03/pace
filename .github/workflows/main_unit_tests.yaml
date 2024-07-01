@@ -50,7 +50,8 @@ jobs:
         uses: action/checkout@v4
         with:
           submodules: 'recursive'
-          repository: ${{github.ref}}
+          repository: noaa-gfdl/pace
+          ref: develop
 
       - name: install packages
         run: |
