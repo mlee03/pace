@@ -6,15 +6,7 @@ on:
         type: boolean
         default: false
         required: false
-      component_repository:
-        type: string
-        default: 'None'
-        required: false
-      component_branch:
-        type: string
-        default: 'None'
-        required: false
-      component_location:
+      component_name:
         type: string
         default: 'None'
         required: false
@@ -44,14 +36,14 @@ jobs:
 
         - name: Remove existing component in pace/develp
           if:  ${{ inputs.component_trigger }}
-          run: rm -rf ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
+          run: rm -rf ${GITHUB_WORKSPACE}/pace/${{inputs.component_name}}
           
         - name: Checkout out pace or component that triggered CI
           if: ${{inputs.component_trigger}}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
-            path: pace/${{inputs.component_location}}
+            path: pace/${{inputs.component_name}}
 
         - name: Checkout out pace or component that triggered CI
           if: ${{!inputs.component_trigger}}
