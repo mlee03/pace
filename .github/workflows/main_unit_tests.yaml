@@ -63,7 +63,11 @@ jobs:
 
         - name: install packages
           run: |
-            ls ${GITHUB_WORKSPACE}
+            cd ${GITHUB_WORKSPACE}/pace/PySHiELD
+            git remote -v
+            git branch
+            git rev-parse HEAD
+            ls ${GITHUB_WORKSPACE}/pace/PySHiELD
             cd ${GITHUB_WORKSPACE}/pace
             pip3 install --upgrade pip setuptools wheel
             pip3 install -r requirements_dev.txt -c constraints.txt
