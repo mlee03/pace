@@ -34,14 +34,19 @@ jobs:
     container:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
-        - name: Checkout pace if component triggered
+        - name: Checkout pace/develop if component triggered
           if:  ${{ inputs.component_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
             path: pace
+            ref: develop
 
+        - name: Remove existing component in pace/develp
+          if:  ${{ inputs.component_trigger }}
+          run: rm -rf ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
+          
         - name: Checkout out component
           if:  ${{ inputs.component_trigger }}
           uses: actions/checkout@v4
