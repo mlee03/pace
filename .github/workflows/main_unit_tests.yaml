@@ -52,8 +52,6 @@ jobs:
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
-            repository: ${{inputs.component_repository}}
-            ref: ${{inputs.component_branch}}
             path: pace/${{inputs.component_location}}
 
         - name: Checkout pace if internally triggered

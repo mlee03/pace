@@ -14,9 +14,14 @@ on:
         type: string
         default: 'None'
         required: false
+      component_location:
+        type: string
+        default: 'None'
+        required: false
   push:
   pull_request:
       types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
 
 # cancel running jobs if theres a newer push
 concurrency:
@@ -29,41 +34,49 @@ jobs:
     container:
       image: ghcr.io/noaa-gfdl/miniforge:mpich
     steps:
-      - name: Checkout pace if externally triggered
-        if:  ${{inputs.component_trigger}}
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-          repository: NOAA-GFDL/pace
+        - name: Checkout pace/develop if component triggered
+          if:  ${{ inputs.component_trigger }}
+          uses: actions/checkout@v4
+          with:
+            submodules: 'recursive'
+            repository: NOAA-GFDL/pace
+            path: pace
+            ref: develop
 
-      - name: Checkout external repository
-        if: ${{ inputs.component_trigger }}
-        uses: action/checkout@v4
-        with:
-          submodules: 'recursive'
-          repository: ${{inputs.component_repository}}
-          ref: ${{inputs.component_branch}}
-          path: pace/.
+        - name: Remove existing component in pace/develp
+          if:  ${{ inputs.component_trigger }}
+          run: rm -rf ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
+          
+        - name: Checkout out component
+          if:  ${{ inputs.component_trigger }}
+          uses: actions/checkout@v4
+          with:
+            submodules: 'recursive'
+            repository: ${{inputs.component_repository}}
+            ref: ${{inputs.component_branch}}
+            path: pace/${{inputs.component_location}}
 
-      - name:  Checkout pace if internally triggered
-        if:  ${{ ! inputs.component_trigger }}
-        uses: action/checkout@v4
-        with:
-          submodules: 'recursive'
+        - name: Checkout pace if internally triggered
+          if: ${{ ! inputs.component_trigger }}
+          uses: actions/checkout@v4
+          with:
+            submodules: 'recursive'
+            path: pace
 
-      - name: install packages
-        run: |
-          cd ${GITHUB_WORKSPACE}/pace
-          pip3 install --upgrade pip setuptools wheel
-          pip3 install -r requirements_dev.txt -c constraints.txt
+        - name: install packages
+          run: |
+            ls ${GITHUB_WORKSPACE}
+            cd ${GITHUB_WORKSPACE}/pace
+            pip3 install --upgrade pip setuptools wheel
+            pip3 install -r requirements_dev.txt -c constraints.txt
 
-      - name: make input files
-        run: |
-          cd ${GITHUB_WORKSPACE}/pace
-          python3 examples/generate_eta_files.py
-          mkdir tests/main/input && mv eta*.nc tests/main/input/.
+        - name: make input files
+          run: |
+            cd ${GITHUB_WORKSPACE}/pace
+            python3 examples/generate_eta_files.py
+            mkdir tests/main/input && mv eta*.nc tests/main/input/.
 
-      - name: run tests
-        run: |
-          cd ${GITHUB_WORKSPACE}/pace
-          pytest -x tests/main
+        - name: run tests
+          run: |
+            cd ${GITHUB_WORKSPACE}/pace
+            pytest -x tests/main
