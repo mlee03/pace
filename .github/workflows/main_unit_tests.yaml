@@ -40,7 +40,7 @@ jobs:
           with:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
-            path: ${GITHUB_WORKSPACE}/pace
+            path: pace
 
         - name: Checkout out component
           if:  ${{ inputs.component_trigger }}
@@ -49,14 +49,14 @@ jobs:
             submodules: 'recursive'
             repository: ${{inputs.component_repository}}
             ref: ${{inputs.component_branch}}
-            path: ${GITHUB_WORKSPACE}/pace/${{inputs.component_location}}
+            path: pace/${{inputs.component_location}}
 
         - name: Checkout pace if internally triggered
           if: ${{ ! inputs.component_trigger }}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
-            path: ${GITHUB_WORKSPACE}/pace
+            path: pace
 
         - name: install packages
           run: |
