@@ -22,7 +22,7 @@ requirements: List[str] = [
 
 
 setup(
-    author="Allen Institute for AI",
+    author="Allen Institute for AI (change)",
     author_email="oliver.elbert@noaa.gov",
     python_requires=">=3.8",
     classifiers=[
