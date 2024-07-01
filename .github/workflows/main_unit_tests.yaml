@@ -32,16 +32,15 @@ jobs:
     steps:
 
         - name:  Checkout pace if internally triggered
-          if:  ${{ ! inputs.component_trigger }}
+          if:  ${{ ! inputs.component_trigger}}
           run: echo "HEREHEREHERE"
 
         - name:  Checkout pace if internally triggered
-          if:  ${{ inputs.component_trigger }}
+          if:  ${{inputs.component_trigger}}
           run: echo "NOPENOPENPENOPE"
 
-
         - name: Checkout pace if externally triggered
-          if:  ${{ inputs.component_trigger }}
+          if:  ${{inputs.component_trigger}}
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
