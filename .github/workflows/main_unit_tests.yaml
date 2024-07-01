@@ -6,6 +6,14 @@ on:
         type: boolean
         default: false
         required: false
+      external_repository:
+        type: boolean
+        default: false
+        required: false
+      external_branch:
+        type: boolean
+        default: false
+        required: false
   push:
   pull_request:
       types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
@@ -29,7 +37,7 @@ jobs:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
             path: pace
-            
+
         - name: Checkout repo that triggered the workflow
           uses: actions/checkout@v4
           with:
