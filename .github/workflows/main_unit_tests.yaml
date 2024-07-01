@@ -45,7 +45,11 @@ jobs:
             repository: ${{inputs.component_repository}}
             ref: ${{inputs.component_branch}}
             path: pace/.
-            
+
+        - name:  Checkout pace if internally triggered
+          if:  ${{ ! inputs.component_trigger }}
+          run: echo "HEREHEREHERE"
+          
         - name:  Checkout pace if internally triggered
           if:  ${{ ! inputs.component_trigger }}
           uses: action/checkout@v4
