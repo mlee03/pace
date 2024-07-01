@@ -7,12 +7,12 @@ on:
         default: false
         required: false
       external_repository:
-        type: boolean
-        default: false
+        type: string
+        default: 'None'
         required: false
       external_branch:
-        type: boolean
-        default: false
+        type: string
+        default: 'None'
         required: false
   push:
   pull_request:
@@ -36,6 +36,15 @@ jobs:
           with:
             submodules: 'recursive'
             repository: NOAA-GFDL/pace
+            path: pace
+
+        - name: Checkout pace if externally triggered
+          if:  ${{ inputs.external_trigger}}
+          uses: actions/checkout@v4
+          with:
+            submodules: 'recursive'
+            repository: ${{inputs.external_repository}}
+            ref: ${{inputs.external_branch}}
             path: pace
 
         - name: Checkout repo that triggered the workflow
