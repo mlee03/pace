@@ -60,7 +60,7 @@ jobs:
 
         - name: install packages
           run: |
-            ls -R ${GITHUB_WORKSPACE}/pace
+            ls ${GITHUB_WORKSPACE}
             cd ${GITHUB_WORKSPACE}/pace
             pip3 install --upgrade pip setuptools wheel
             pip3 install -r requirements_dev.txt -c constraints.txt
