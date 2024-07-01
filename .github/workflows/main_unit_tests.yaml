@@ -25,7 +25,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  github_repository: ${{github.event.repository.name}}
+  github_repository: ${{ github.event.pull_request.head.sha }}
 
 jobs:
   main_unit_tests:
@@ -45,7 +45,7 @@ jobs:
           uses: actions/checkout@v4
           with:
             submodules: 'recursive'
-            path: ${{ env.github_repository }}
+            path: ${{env.github_repository}}
 
         - name: mv PyFV3 to pace
           if: ${{inputs.fv3_trigger}}
